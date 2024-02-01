@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-// import "pretendard/dist/web/static/pretendard.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
