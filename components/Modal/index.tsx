@@ -5,17 +5,29 @@ import styles from "./modal.module.css";
 interface ModalProps {
   open: boolean;
   onClose: () => void;
-  children: ReactNode;
+  title?: string;
+  content?: string;
+  confirmButton?: ReactNode;
+  closeButton?: ReactNode;
 }
 
-const Modal = ({ open, onClose, children }: ModalProps) => {
+const Modal = ({
+  open,
+  onClose,
+  title,
+  content,
+  confirmButton,
+  closeButton,
+}: ModalProps) => {
   if (!open) return null;
   return ReactDOM.createPortal(
     <>
       <div className={styles.overlayStyle} />
       <div className={styles.modalStyle}>
-        <button onClick={onClose}>모달 닫기</button>
-        {children}
+        <h2>{title}</h2>
+        <p>{content}</p>
+        {confirmButton && <button>{confirmButton}</button>}
+        {closeButton && <button onClick={onClose}>{closeButton}</button>}
       </div>
     </>,
     document.getElementById("global-modal") as HTMLElement
