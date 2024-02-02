@@ -1,5 +1,4 @@
 import Image from "next/image";
-import WithHeaderLayout from "../WithHeaderLayout";
 import Link from "next/link";
 
 const KakaoLogin = () => {
