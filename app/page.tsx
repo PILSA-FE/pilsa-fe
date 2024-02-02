@@ -1,5 +1,7 @@
 import WithHeaderLayout from "@/components/WithHeaderLayout";
 
+import BottomSheet from "@/components/BottomSheet";
+
 export default function Home() {
   return (
     <WithHeaderLayout>
