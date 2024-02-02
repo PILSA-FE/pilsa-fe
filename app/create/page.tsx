@@ -25,7 +25,9 @@ const CreatePage = () => {
         selectedCategories.filter((item: string) => item !== category)
       );
     } else {
-      setSelectedCategories([...selectedCategories, category]);
+      if (selectedCategories.length < 3) {
+        setSelectedCategories([...selectedCategories, category]);
+      }
     }
   };
 
@@ -100,6 +102,11 @@ const CreatePage = () => {
     alert("stop");
   };
 
+  const imageDelete = () => {
+    setFormData({ ...formData, file: null });
+    setPreviewURL(null);
+  };
+
   const categoryList = [
     "시",
     "산문",
@@ -125,37 +132,34 @@ const CreatePage = () => {
           />
         </div>
         <hr className="my-4 border-[#EFEFEF]" />
-        <label
-          htmlFor="imageUpload"
-          className="inline-flex items-center justify-center w-full p-4 rounded-lg bg-[#EBEBEB] gap-x-1 cursor-pointer"
-        >
-          <Image
-            src="/icons/camera_icon.png"
-            width={16}
-            height={16}
-            alt="camera"
-          />
-          <span className="text-[#6D6D6D] text-sm font-medium">
-            {formData.file !== null
-              ? previewURL && (
+
+        {formData.file !== null
+          ? previewURL && (
+              <div className="w-full h-[260px] relative ">
+                <Image
+                  src={previewURL}
+                  alt="미리보기"
+                  width={0}
+                  height={0}
+                  className="w-full h-[260px] absolute top-[-1px] rounded-lg object-cover"
+                />
+                <div
+                  className="cursor-pointer flex justify-start items-start absolute left-[300px] top-[210px] gap-2.5 p-2 rounded bg-white"
+                  style={{ boxShadow: "0px 0px 8px 0 rgba(0,0,0,0.15)" }}
+                  onClick={imageDelete}
+                >
                   <Image
-                    src={previewURL}
-                    alt="미리보기"
-                    width={100}
-                    height={100}
+                    src="/icons/trashcan_icon.png"
+                    width={24}
+                    height={24}
+                    alt="이미지삭제"
+                    className="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
                   />
-                )
-              : "사진으로 필사 올리기 (1장)"}
-          </span>
-          <input
-            type="file"
-            id="imageUpload"
-            className="hidden" // 파일 입력 요소를 숨깁니다.
-            name="filename"
-            accept="image/*"
-            onChange={handleInputChange} // 파일이 변경되었을 때 호출될 핸들러 함수
-          />
-        </label>
+                </div>
+              </div>
+            )
+          : ""}
+
         <div className="my-3 rounded-xl py-5 px-4 h-[224px] w-full bg-[#F8F8F8]">
           <textarea
             name="content"
@@ -166,7 +170,41 @@ const CreatePage = () => {
             onChange={handleInputChange}
           />
         </div>
-        <p className="text-xs text-[#777]">
+        <div className="flex gap-1">
+          <button className="inline-flex items-center justify-center w-2/12 p-4 pt-5 rounded-lg bg-[url('/icons/palette_background.png')] gap-x-1 cursor-pointer text-white">
+            <Image
+              src="/icons/palette.png"
+              width={24}
+              height={24}
+              alt="카드꾸미기"
+              className="flex-grow-0 flex-shrink-0 w-6 h-6 relative"
+            />
+          </button>
+          <label
+            htmlFor="imageUpload"
+            className="inline-flex items-center justify-center w-10/12	 p-4 pt-5 rounded-lg bg-[#EBEBEB] gap-x-1 cursor-pointer"
+          >
+            <Image
+              src="/icons/camera_icon.png"
+              width={16}
+              height={16}
+              alt="camera"
+            />
+            <span className="text-[#6D6D6D] text-sm font-medium">
+              사진으로 필사 올리기 (1장)
+            </span>
+            <input
+              type="file"
+              id="imageUpload"
+              className="hidden" // 파일 입력 요소를 숨깁니다.
+              name="filename"
+              accept="image/*"
+              onChange={handleInputChange} // 파일이 변경되었을 때 호출될 핸들러 함수
+            />
+          </label>
+        </div>
+
+        <p className="text-xs text-[#777] pt-3">
           * 최소한, 필사 글 또는 이미지 중 하나는 채워 주세요!
         </p>
         <hr className="my-4 border-[#EFEFEF]" />
@@ -199,52 +237,23 @@ const CreatePage = () => {
           <ul className="flex flex-wrap items-center justify-center gap-2.5 px-2">
             {categoryList.map((category) => (
               <li
-                className="px-3 py-1.5 border border-[#E3E3E3] rounded-[100px]"
-                key={category}
-              >
-                <span className="text-sm text-[#999] font-light">
-                  {category}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="flex flex-col items-center justify-center gap-y-3">
-          <div className="flex items-center gap-x-0.5">
-            <p className="text-sm text-[#777] font-semibold">카테고리</p>
-            <span className="text-xs text-[#777]">(최대3개)</span>
-          </div>
-          <ul className="flex flex-wrap items-center justify-center gap-2.5 px-2">
-            {categoryList.map((category) => (
-              <li
-                className={`px-3 py-1.5 border border-[#E3E3E3] rounded-[100px] ${
-                  selectedCategories.includes(category)
-                    ? "bg-blue-500 text-white"
-                    : ""
+                className={`px-3 py-1.5 border border-[#E3E3E3] rounded-[100px] cursor-pointer ${
+                  selectedCategories.includes(category) ? "bg-gray-500" : ""
                 }`}
                 key={category}
                 onClick={() => handleCategoryClick(category)}
               >
-                <span className="text-sm text-[#999] font-light">
+                <span
+                  className={`text-sm text-[#999] font-light ${
+                    selectedCategories.includes(category) ? "text-white" : ""
+                  }`}
+                >
                   {category}
                 </span>
               </li>
             ))}
           </ul>
         </div>
-
-        <hr className="my-4 border-[#EFEFEF]" />
-        <ul className="py-4 flex items-center justify-center px-2 gap-x-2.5">
-          <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
-          <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
-          <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
-          <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
-          <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
-          <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
-          <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
-        </ul>
-        <hr className="h-0.5 border-[#EFEFEF]" />
         <button
           type="submit"
           className="mt-10 mb-4 w-full py-4 rounded-lg text-white text-center bg-[#6D6D6D] text-sm font-bold"
