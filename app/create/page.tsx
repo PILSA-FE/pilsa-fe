@@ -9,12 +9,25 @@ const CreatePage = () => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    file: null as any, // 추가: 파일 상태 추가
+    file: null as any,
     author: "",
     publisher: "",
     category: [] as any,
   });
   const [previewURL, setPreviewURL] = useState<any>(null);
+
+  const [selectedCategories, setSelectedCategories] = useState<any>([]);
+
+  const handleCategoryClick = (category: string) => {
+    // 클릭한 항목이 이미 선택되었다면 제거, 아니면 추가
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(
+        selectedCategories.filter((item: string) => item !== category)
+      );
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+  };
 
   const { title, content, file, author, publisher, category } = formData;
 
@@ -196,6 +209,31 @@ const CreatePage = () => {
             ))}
           </ul>
         </div>
+
+        <div className="flex flex-col items-center justify-center gap-y-3">
+          <div className="flex items-center gap-x-0.5">
+            <p className="text-sm text-[#777] font-semibold">카테고리</p>
+            <span className="text-xs text-[#777]">(최대3개)</span>
+          </div>
+          <ul className="flex flex-wrap items-center justify-center gap-2.5 px-2">
+            {categoryList.map((category) => (
+              <li
+                className={`px-3 py-1.5 border border-[#E3E3E3] rounded-[100px] ${
+                  selectedCategories.includes(category)
+                    ? "bg-blue-500 text-white"
+                    : ""
+                }`}
+                key={category}
+                onClick={() => handleCategoryClick(category)}
+              >
+                <span className="text-sm text-[#999] font-light">
+                  {category}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <hr className="my-4 border-[#EFEFEF]" />
         <ul className="py-4 flex items-center justify-center px-2 gap-x-2.5">
           <li className="w-9 h-9 bg-[#E1F3E3] rounded-full"></li>
