@@ -1,6 +1,4 @@
 import Image from "next/image";
-import WithHeaderLayout from "../WithHeaderLayout";
-import styles from "./kakaoLogin.module.css";
 import Link from "next/link";
 
 const KakaoLogin = () => {
@@ -9,11 +7,21 @@ const KakaoLogin = () => {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   return (
-    <WithHeaderLayout>
+    <div className="relative w-full max-w-[390px] mx-auto">
+      <header className="sticky top-0 px-4 border-b border-[#efefef] py-3">
+        <Link href={"/"}>
+          <Image
+            src="/images/logo.png"
+            alt="텍스트버킷"
+            width={103}
+            height={24}
+          />
+        </Link>
+      </header>
       <div className="flex flex-col items-center justify-center gap-y-9 w-full max-w-[296px] mx-auto">
         <div className="mt-[148px] w-full h-full items-center justify-center flex flex-col">
           <p className="mb-4 text-[#666] font-semibold text-center">
-            꾸준히 가능한 필사, ㅇㅇㅇ
+            꾸준히가 가능한 필사, 텍스트버킷
           </p>
           <p className="text-lg font-semibold text-center">
             필사에 관심 있는 누구나
@@ -35,7 +43,7 @@ const KakaoLogin = () => {
           </div>
         </Link>
       </div>
-    </WithHeaderLayout>
+    </div>
   );
 };
 

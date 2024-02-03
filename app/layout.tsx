@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-// import "pretendard/dist/web/static/pretendard.css";
+import AuthProvider from "@/shared/contexts/AuthContext";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +16,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        {children}
-        <div id="global-modal"></div>
+        <AuthProvider>
+          <div id="global-modal">{children}</div>
+        </AuthProvider>
       </body>
     </html>
   );
