@@ -34,7 +34,7 @@ const Header = () => {
           />
         </div>
         {/* </Link> */}
-        {isSigned && profile ? (
+        {isSigned ? (
           <div className="flex items-center gap-x-3">
             {!isCreatePage && (
               <Link
