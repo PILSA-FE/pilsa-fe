@@ -179,7 +179,7 @@ const CreatePage = () => {
             style={{
               backgroundImage:
                 imageNumber !== null
-                  ? `url('/images/bg_image${imageNumber + 1}.jpg')`
+                  ? `url('/images/bg_image${imageNumber + 1}.png')`
                   : "none",
               backgroundSize: "cover", // 배경 이미지 크기 조절 (선택적)
             }}
