@@ -144,7 +144,7 @@ const CreatePage = () => {
   return (
     <>
       <WithHeaderLayout>
-        <form action="" className="mt-4">
+        <form action="" className="mt-4 px-4">
           <div className="relative rounded-xl py-5 px-3 bg-[#F8F8F8]">
             <input
               type="text"

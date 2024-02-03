@@ -25,20 +25,21 @@ const Header = () => {
     <header className="w-full flex items-center justify-center sticky top-0 bg-white h-14 border-b border-[#efefef] z-50">
       <div className="w-full flex justify-between items-center px-4">
         {/* <Link href={"/"}> */}
-        <Image
-          src="/images/logo.png"
-          alt="텍스트버킷"
-          width={103}
-          height={24}
-          onClick={logoClick}
-        />
+        <div className="cursor-pointer" onClick={logoClick}>
+          <Image
+            src="/images/logo.png"
+            alt="텍스트버킷"
+            width={131}
+            height={28}
+          />
+        </div>
         {/* </Link> */}
         {isSigned && profile ? (
           <div className="flex items-center gap-x-3">
             {!isCreatePage && (
               <Link
                 href={"/create"}
-                className="py-2 px-4 rounded-lg bg-[#385b3b] text-white text-sm font-semibold"
+                className="py-2 px-4 rounded-lg bg-[#00C37D] text-white text-sm font-semibold"
               >
                 필사하기
               </Link>
@@ -59,13 +60,13 @@ const Header = () => {
           <div className="flex items-center gap-x-2">
             <Link
               href={"/login"}
-              className="py-2 px-4 rounded-lg bg-[#385b3b] text-white text-sm font-semibold"
+              className="py-2 px-4 rounded-lg bg-[#00C37D] text-white text-sm font-semibold"
             >
               필사하기
             </Link>
             <Link
               href={"/login"}
-              className="py-2 px-4 rounded-lg border border-[#385b3b] text-[#385b3b] text-sm font-semibold"
+              className="py-2 px-4 rounded-lg border border-[#00C37D] text-[#00C37D] text-sm font-semibold"
             >
               로그인
             </Link>

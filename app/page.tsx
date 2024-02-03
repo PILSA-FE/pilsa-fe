@@ -43,13 +43,10 @@ export default function Home() {
 
   return (
     <WithHeaderLayout>
-      <div className="flex flex-col gap-y-8 my-5">
+      <div className="flex flex-col gap-y-8 my-5 px-4">
         <section className="flex flex-col gap-y-4">
           <h3 className="text-lg font-bold">오늘의 글감</h3>
-          {todayList &&
-            todayList.pilsaLists.map((pilsaInfo: IPilsaCardItem) => (
-              <PilsaCard pilsaInfo={pilsaInfo} key={pilsaInfo.pilsaId} />
-            ))}
+          {todayList && <PilsaCard pilsaInfo={todayList.pilsaLists[0]} />}
         </section>
         <section className="flex flex-col gap-y-4">
           <h3 className="text-lg font-bold">추천 글감</h3>

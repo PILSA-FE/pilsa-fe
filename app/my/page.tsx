@@ -87,7 +87,8 @@ const MyPage = () => {
               )}
             </div>
             <div className="mt-3 flex flex-col gap-y-4">
-              {myPilsaList ? (
+              {myPilsaList?.totalCount !== 0 ? (
+                myPilsaList &&
                 myPilsaList.pilsaLists.map((pilsaInfo) => (
                   <PilsaCard pilsaInfo={pilsaInfo} key={pilsaInfo.pilsaId} />
                 ))
@@ -102,7 +103,7 @@ const MyPage = () => {
                   </p>
                   <Link
                     href={"/create"}
-                    className="w-full py-4 rounded-lg text-white text-center bg-[#6D6D6D] text-lg font-bold"
+                    className="w-full py-4 rounded-lg text-white text-center bg-[#00C37D] text-lg font-bold"
                   >
                     필사하기
                   </Link>

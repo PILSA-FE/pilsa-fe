@@ -65,7 +65,7 @@ const ProfileEditPage = () => {
     <ProtectRoute>
       <WithHeaderLayout>
         <div
-          className="flex flex-col h-full justify-between"
+          className="flex flex-col h-full justify-between px-4"
           style={{ minHeight: "calc(100vh - 72px)" }}
         >
           <form className="mt-4 px-4" onSubmit={handleSubmit(onSubmit)}>
@@ -81,7 +81,7 @@ const ProfileEditPage = () => {
             />
             <button
               type="submit"
-              className="mt-5 w-full py-4 rounded-lg text-white text-center bg-[#6D6D6D] text-sm font-bold"
+              className="mt-5 w-full py-4 rounded-lg text-white text-center bg-[#00C37D] text-sm font-bold"
             >
               적용하기
             </button>
