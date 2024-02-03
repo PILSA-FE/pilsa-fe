@@ -76,9 +76,9 @@ const CreatePage = () => {
       author: author,
       publisher: publisher,
       textContents: content,
-      backgroundImageUrl: "",
+      backgroundImageUrl: `/images/bg_image${imageNumber}`,
       backgroundColor: "",
-      categoryCd: [0],
+      categoryCd: selectedCategories,
       images: [{ imageUrl: imageUrl, thumbnail: "Y", imageSeq: 0 }],
     };
     try {
@@ -120,9 +120,17 @@ const CreatePage = () => {
   ];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    setIsModalOpen(true);
+    console.log(selectedCategories);
+  };
   const closeModal = () => setIsModalOpen(false);
 
+  const [imageNumber, setImageNumber] = useState(0);
+  const getImage = (ImageNumber: any) => {
+    console.log("ImageNumber ? 🚀 : ", ImageNumber);
+    setImageNumber(ImageNumber);
+  };
   return (
     <>
       <WithHeaderLayout>
@@ -166,7 +174,16 @@ const CreatePage = () => {
               )
             : ""}
 
-          <div className="my-3 rounded-xl py-5 px-4 h-[224px] w-full bg-[#F8F8F8]">
+          <div
+            className="my-3 rounded-xl py-5 px-4 h-[224px] w-full bg-[#F8F8F8] "
+            style={{
+              backgroundImage:
+                imageNumber !== null
+                  ? `url('/images/bg_image${imageNumber + 1}.jpg')`
+                  : "none",
+              backgroundSize: "cover", // 배경 이미지 크기 조절 (선택적)
+            }}
+          >
             <textarea
               name="content"
               id="content"
@@ -276,8 +293,14 @@ const CreatePage = () => {
       <BottomSheet
         open={isModalOpen}
         onClose={closeModal}
+        title={title}
+        content={content}
+        author={author}
+        publisher={publisher}
+        category={selectedCategories}
         confirmButton="적용하기"
         closeButton="취소"
+        getImage={getImage}
       />
     </>
   );

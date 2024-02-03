@@ -6,21 +6,27 @@ import Image from "next/image";
 interface BottomSheetProps {
   open: boolean;
   onClose: () => void;
-  // title?: string;
-  // content?: string;
+  title?: string;
+  content?: string;
+  author?: string;
+  publisher?: string;
+  category?: any;
   confirmButton?: ReactNode;
   closeButton?: ReactNode;
-  confirmEvent?: () => void;
+  getImage?: (imageNumber: any) => void;
 }
 
 const BottomSheet = ({
   open,
   onClose,
-  // title,
-  // content,
+  title,
+  content,
+  author,
+  publisher,
+  category,
   confirmButton,
   closeButton,
-  confirmEvent,
+  getImage,
 }: BottomSheetProps) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const imageCount = 25;
@@ -30,6 +36,12 @@ const BottomSheet = ({
     console.log(selectedImage);
   };
 
+  const sendImage = () => {
+    console.log(selectedImage);
+    onClose();
+    getImage?.(selectedImage);
+  };
+  const imageDataSend = () => {};
   const groupedImages = Array.from(
     { length: Math.ceil(imageCount / 5) },
     (_, groupIndex) =>
@@ -57,22 +69,23 @@ const BottomSheet = ({
           >
             <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-3">
               <div className="flex justify-start items-start flex-grow-0 flex-shrink-0 relative gap-0.5">
-                <p className="flex-grow-0 flex-shrink-0 text-[13px] font-medium text-left text-[#666]">
-                  소설
-                </p>
+                {category.map((categoryItem: any, index: any) => (
+                  <p
+                    key={index}
+                    className="flex-grow-0 flex-shrink-0 text-[13px] font-medium text-left text-[#666]"
+                  >
+                    {categoryItem}
+                  </p>
+                ))}
               </div>
               <p className="flex-grow-0 flex-shrink-0 text-base font-bold text-left text-[#353535]">
-                나는 나로 살기로 했다
+                {title}
               </p>
             </div>
-            <p>
-              Failed to transform TEXT Ich bitte die Kinder um Verzeihung, daß
-              ich dieses Buch einem Erwachsenen widme. Ich habe eine ernstliche
-              Entschu ldigung dsdafür: Dieser Erwa
-            </p>
+            <pre>{content}</pre>
             <div className="flex justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
               <p className="self-stretch flex-grow-0 flex-shrink-0 w-[280px] text-[11px] font-light text-left text-[#666]">
-                - 앙투안 드 생텍쥐페리
+                - {author} - {publisher}
               </p>
             </div>
           </div>
@@ -113,14 +126,20 @@ const BottomSheet = ({
           } grid py-4`}
         >
           {closeButton && (
-            <button onClick={onClose} className="font-semibold text-sm">
+            <button
+              onClick={() => {
+                onClose();
+                setSelectedImage(null);
+              }}
+              className="font-semibold text-sm"
+            >
               {closeButton}
             </button>
           )}
 
           {confirmButton && (
             <div className="relative flex items-center justify-center">
-              <button className="font-semibold text-sm" onClick={confirmEvent}>
+              <button className="font-semibold text-sm" onClick={sendImage}>
                 {confirmButton}
               </button>
             </div>
