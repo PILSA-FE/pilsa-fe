@@ -1,5 +1,4 @@
 import Header from "../Header";
-import styles from "./withHeaderLayout.module.css";
 
 const WithHeaderLayout = ({
   children,
