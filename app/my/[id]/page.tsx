@@ -20,10 +20,17 @@ const MyPilsaDetailPage = () => {
   );
   const [toggle, setToggle] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const accessToken =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
 
   const fetchPilsaItem = async (pilsaId: string) => {
     const res = await axios.get<IPilsaCardItem>(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}?getMyPilsa=true`
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}?getMyPilsa=true`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
     );
     if (res.status === 200) {
       setPilsaInfo(res.data);
@@ -32,12 +39,19 @@ const MyPilsaDetailPage = () => {
   };
 
   const deletePilsaItem = async () => {
-    const res = await axios.delete(`/api/v1/pilsa/${pilsaId}`, {
-      data: {
-        memberId: profile?.id as number,
-      },
-    });
-    if (res.status === 200) {
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}`,
+      {
+        data: {
+          memberId: profile?.id as number,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (res.status === 204) {
+      setIsOpen(false);
       router.back();
     }
   };

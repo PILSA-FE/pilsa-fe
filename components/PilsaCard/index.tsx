@@ -65,7 +65,9 @@ const PilsaCard = ({ pilsaInfo, hasDetail = true }: IPilsaCardProps) => {
   };
   return (
     <div
-      className={`p-6 rounded-xl relative cursor-pointer`}
+      className={`p-6 rounded-xl relative cursor-pointer ${
+        backgroundImageUrl ? "" : "bg-[#F4F0FF] odd:bg-[#FDFDD0]"
+      }`}
       onClick={goToDetailPage}
     >
       {backgroundImageUrl && (
