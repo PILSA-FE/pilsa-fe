@@ -39,8 +39,28 @@ const UpdatePage = () => {
   const [categoryList, setCategoryList] = useState<any>([]);
   const [isModified, setIsModified] = useState(false);
   const [modifyBackground, setModifyBackground] = useState("");
+  const registeredCategories: number[] = [];
+  const storage = globalThis?.sessionStorage;
+  const link = storage.getItem("currentPath") || "/";
+  console.log(link);
+  let registeredImage: string = "";
 
   useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/category`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        const categories = res.data.categories;
+        setCategoryList(categories);
+      })
+      .catch((error) => {
+        console.log("!", error);
+      });
+
     if (pilsaId !== null) {
       setIsModified(true);
 
@@ -54,32 +74,21 @@ const UpdatePage = () => {
           }
         )
         .then((res) => {
-          console.log("res.data", res.data);
+          console.log("res.data ? : ", res.data);
           setFormData(res.data);
           setSelectedCategories(res.data.categoryLists);
           setModifyBackground(res.data.backgroundImageUrl);
+          res.data.categoryLists.map((cate: { categoryCd: number }) =>
+            registeredCategories.push(cate.categoryCd)
+          );
+          setSelectedCategories(registeredCategories);
+          registeredImage = res.data.pilsaImages[0].imageUrl;
+          setPreviewURL(res.data.pilsaImages[0].imageUrl);
         })
         .catch((error) => {
           console.log("!", error);
         });
     }
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/category`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        const categories = res.data.categories; // "categories" 키에서 배열을 추출
-        setCategoryList(categories);
-      })
-      .catch((error) => {
-        console.log("!", error);
-      });
   }, []);
 
   const handleCategoryClick = (category: number) => {
@@ -100,7 +109,6 @@ const UpdatePage = () => {
   }) => {
     if (event.target.name === "filename") {
       setFormData({ ...formData, file: event.target.files[0] });
-      const previewURL = URL.createObjectURL(event.target.files[0]);
       setPreviewURL(URL.createObjectURL(event.target.files[0]));
     } else if (event.target.name === "category") {
       console.log("카테고리 입력");
@@ -114,21 +122,27 @@ const UpdatePage = () => {
     const imageData = new FormData();
     imageData.append("files", formData.file);
     console.log(formData.file);
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/image`,
-        imageData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          maxBodyLength: Infinity,
-          maxContentLength: Infinity,
-        }
-      );
-      handleSubmit(response.data[0].imageUrl);
-    } catch (error) {
-      console.error(error);
+    if (formData.file) {
+      // 기존 이미지 외 새로운 이미지로 수정 했을 시
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/image`,
+          imageData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            maxBodyLength: Infinity,
+            maxContentLength: Infinity,
+          }
+        );
+        handleSubmit(response.data[0].imageUrl);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      // 기존이미지 유지했을 시
+      handleSubmit(registeredImage);
     }
   };
 
@@ -146,8 +160,8 @@ const UpdatePage = () => {
     };
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa`,
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}`,
         requestBody,
         {
           headers: {
@@ -171,7 +185,10 @@ const UpdatePage = () => {
   const openModal = () => {
     setIsModalOpen(true);
   };
-  const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setIsModified(false);
+  };
   const closeWarningModal = () => setShowWarningModal(false);
   const getImage = (ImageNumber: any) => {
     setImageNumber(ImageNumber);
@@ -196,7 +213,7 @@ const UpdatePage = () => {
           {formData.file !== null
             ? previewURL && (
                 <div className="w-full h-[260px] relative ">
-                  <Image
+                  <img
                     src={previewURL}
                     alt="미리보기"
                     width={0}
@@ -337,7 +354,6 @@ const UpdatePage = () => {
           <button
             type="button"
             className="mt-10 mb-4 w-full py-4 rounded-lg text-white text-center bg-[#00C37D] text-sm font-bold"
-            disabled={isModified ? true : false}
             onClick={() => {
               if (textContents !== "" || file !== null) {
                 file !== null ? getImageUrl() : handleSubmit("");
@@ -346,7 +362,7 @@ const UpdatePage = () => {
               }
             }}
           >
-            {isModified ? "필사 수정하기" : "필사 올리기"}
+            필사 수정하기
           </button>
         </form>
       </WithHeaderLayout>

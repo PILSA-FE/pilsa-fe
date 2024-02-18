@@ -95,7 +95,6 @@ const BottomSheet = ({
                     className={`relative cursor-pointer`}
                     onClick={() => handleImageClick(index)}
                   >
-                    {/* 이미지를 가져오는 로직을 추가하세요 */}
                     {index < imageCount && (
                       <Image
                         src={`/images/bg_image${index + 1}.png`} // 예제로 사용한 임시 이미지 URL

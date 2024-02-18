@@ -18,8 +18,6 @@ interface ICategoryItem {
 
 const CreatePage = () => {
   const router = useRouter();
-  // const searchParams = useSearchParams();
-  // const pilsaId = searchParams.get("id");
   const [formData, setFormData] = useState({
     title: "",
     textContents: "",
@@ -37,33 +35,6 @@ const CreatePage = () => {
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [imageNumber, setImageNumber] = useState(0);
   const [categoryList, setCategoryList] = useState<any>([]);
-  const [isModified, setIsModified] = useState(false);
-  const [modifyBackground, setModifyBackground] = useState("");
-
-  // useEffect(() => {
-  //   if (pilsaId !== null) {
-  //     setIsModified(true);
-
-  //     axios
-  //       .get(
-  //         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}?getMyPilsa=true`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${accessToken}`,
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         console.log("res.data", res.data);
-  //         setFormData(res.data);
-  //         setSelectedCategories(res.data.categoryLists);
-  //         setModifyBackground(res.data.backgroundImageUrl);
-  //       })
-  //       .catch((error) => {
-  //         console.log("!", error);
-  //       });
-  //   }
-  // }, []);
 
   useEffect(() => {
     axios
@@ -100,7 +71,6 @@ const CreatePage = () => {
   }) => {
     if (event.target.name === "filename") {
       setFormData({ ...formData, file: event.target.files[0] });
-      const previewURL = URL.createObjectURL(event.target.files[0]);
       setPreviewURL(URL.createObjectURL(event.target.files[0]));
     } else if (event.target.name === "category") {
       console.log("카테고리 입력");
@@ -223,11 +193,7 @@ const CreatePage = () => {
           <div
             className="my-3 rounded-xl py-5 px-4 h-[224px] w-full bg-[#F8F8F8] "
             style={{
-              backgroundImage: isModified
-                ? `url('${modifyBackground}.png')`
-                : imageNumber !== null
-                ? `url('/images/bg_image${imageNumber + 1}.png')`
-                : "none",
+              backgroundImage: `url('/images/bg_image${imageNumber + 1}.png')`,
               backgroundSize: "cover", // 배경 이미지 크기 조절 (선택적)
             }}
           >
@@ -337,7 +303,6 @@ const CreatePage = () => {
           <button
             type="button"
             className="mt-10 mb-4 w-full py-4 rounded-lg text-white text-center bg-[#00C37D] text-sm font-bold"
-            disabled={isModified ? true : false}
             onClick={() => {
               if (textContents !== "" || file !== null) {
                 file !== null ? getImageUrl() : handleSubmit("");
@@ -346,7 +311,7 @@ const CreatePage = () => {
               }
             }}
           >
-            {isModified ? "필사 수정하기" : "필사 올리기"}
+            필사 올리기
           </button>
         </form>
       </WithHeaderLayout>
