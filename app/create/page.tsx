@@ -115,6 +115,7 @@ const CreatePage = () => {
       images: [{ imageUrl: imageUrl, thumbnail: "Y", imageSeq: 0 }],
     };
 
+    console.log("requestBody ? : ", requestBody);
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa`,
@@ -193,7 +194,7 @@ const CreatePage = () => {
           <div
             className="my-3 rounded-xl py-5 px-4 h-[224px] w-full bg-[#F8F8F8] "
             style={{
-              backgroundImage: `url('/images/bg_image${imageNumber + 1}.png')`,
+              backgroundImage: `url('/images/bg_image${imageNumber}.png')`,
               backgroundSize: "cover", // 배경 이미지 크기 조절 (선택적)
             }}
           >

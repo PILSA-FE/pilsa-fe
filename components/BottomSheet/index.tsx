@@ -28,18 +28,16 @@ const BottomSheet = ({
   closeButton,
   getImage,
 }: BottomSheetProps) => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(0);
   const imageCount = 22;
 
   const handleImageClick = (index: any) => {
     setSelectedImage(index);
-    console.log(selectedImage);
   };
 
   const sendImage = () => {
-    console.log(selectedImage);
     onClose();
-    getImage?.(selectedImage);
+    getImage?.(selectedImage + 1);
   };
   const groupedImages = Array.from(
     { length: Math.ceil(imageCount / 5) },
@@ -119,7 +117,7 @@ const BottomSheet = ({
             <button
               onClick={() => {
                 onClose();
-                setSelectedImage(null);
+                setSelectedImage(0);
               }}
               className="font-bold text-sm border inline-flex items-center justify-center text-[#00C37D] py-4 border-[#00C37D] w-[128px] rounded-lg"
             >

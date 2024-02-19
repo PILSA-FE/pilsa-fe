@@ -129,43 +129,44 @@ const PilsaDetailPage = () => {
                 <p className="text-lg text-[#353535] font-bold font-Bokk-MeongJo relative z-10">
                   {pilsaInfo.title}
                 </p>
-
-                <div
-                  className="relative cursor-pointer"
-                  onClick={onClickToggle}
-                >
-                  <Image
-                    src="/icons/more_vertical_icon.svg"
-                    alt="more"
-                    width={24}
-                    height={24}
-                  />
-                  {toggle && (
-                    <div className="absolute -bottom-[50px] right-0 bg-white rounded-lg w-[114px] shadow-md z-50">
-                      <Link
-                        href={`/update/${pilsaId}`}
-                        className="flex items-center gap-x-2 py-4 px-5 border-b border-[#dedede]"
-                      >
-                        <img src="/icons/pencil_icon.svg" />
-                        <span className="text-sm">수정하기</span>
-                      </Link>
-                      <div
-                        onClick={() => {
-                          setToggle(false);
-                          setIsOpen(true);
-                        }}
-                        className="flex items-center gap-x-2 py-4 px-5 relative z-50"
-                      >
-                        <img
-                          src="/icons/trashcan_icon.png"
-                          width={16}
-                          height={16}
-                        />
-                        <span className="text-sm">삭제하기</span>
+                {isMine ? (
+                  <div
+                    className="relative cursor-pointer"
+                    onClick={onClickToggle}
+                  >
+                    <Image
+                      src="/icons/more_vertical_icon.svg"
+                      alt="more"
+                      width={24}
+                      height={24}
+                    />
+                    {toggle && (
+                      <div className="absolute -bottom-[50px] right-0 bg-white rounded-lg w-[114px] shadow-md z-50">
+                        <Link
+                          href={`/update/${pilsaId}`}
+                          className="flex items-center gap-x-2 py-4 px-5 border-b border-[#dedede]"
+                        >
+                          <img src="/icons/pencil_icon.svg" />
+                          <span className="text-sm">수정하기</span>
+                        </Link>
+                        <div
+                          onClick={() => {
+                            setToggle(false);
+                            setIsOpen(true);
+                          }}
+                          className="flex items-center gap-x-2 py-4 px-5 relative z-50"
+                        >
+                          <img
+                            src="/icons/trashcan_icon.png"
+                            width={16}
+                            height={16}
+                          />
+                          <span className="text-sm">삭제하기</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                ) : null}
               </div>
             </section>
             <section className="">

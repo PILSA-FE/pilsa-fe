@@ -40,10 +40,7 @@ const UpdatePage = () => {
   const [isModified, setIsModified] = useState(false);
   const [modifyBackground, setModifyBackground] = useState("");
   const registeredCategories: number[] = [];
-  const storage = globalThis?.sessionStorage;
-  const link = storage.getItem("currentPath") || "/";
-  console.log(link);
-  let registeredImage: string = "";
+  const [registeredImage, setRegisteredImage] = useState("");
 
   useEffect(() => {
     axios
@@ -82,7 +79,7 @@ const UpdatePage = () => {
             registeredCategories.push(cate.categoryCd)
           );
           setSelectedCategories(registeredCategories);
-          registeredImage = res.data.pilsaImages[0].imageUrl;
+          setRegisteredImage(res.data.pilsaImages[0].imageUrl);
           setPreviewURL(res.data.pilsaImages[0].imageUrl);
         })
         .catch((error) => {
@@ -119,6 +116,8 @@ const UpdatePage = () => {
   };
 
   const getImageUrl = async () => {
+    console.log(registeredImage);
+
     const imageData = new FormData();
     imageData.append("files", formData.file);
     console.log(formData.file);
@@ -159,6 +158,7 @@ const UpdatePage = () => {
       images: [{ imageUrl: imageUrl, thumbnail: "Y", imageSeq: 0 }],
     };
 
+    console.log("requestBody ? : ", requestBody);
     try {
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}`,
@@ -243,7 +243,7 @@ const UpdatePage = () => {
               backgroundImage: isModified
                 ? `url('${modifyBackground}.png')`
                 : imageNumber !== null
-                ? `url('/images/bg_image${imageNumber + 1}.png')`
+                ? `url('/images/bg_image${imageNumber}.png')`
                 : "none",
               backgroundSize: "cover", // 배경 이미지 크기 조절 (선택적)
             }}

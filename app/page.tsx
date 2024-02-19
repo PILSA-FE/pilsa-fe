@@ -5,7 +5,6 @@ import WithHeaderLayout from "@/components/WithHeaderLayout";
 import { useAuth } from "@/shared/contexts/AuthContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 export interface IPilsaList {
   totalCount: number;
@@ -13,16 +12,6 @@ export interface IPilsaList {
 }
 
 export default function Home() {
-  const router = useRouter();
-  useEffect(() => storePathValues, [router.asPath]);
-  function storePathValues() {
-    const storage = globalThis?.sessionStorage;
-    if (!storage) return;
-    const prevPath: any = storage.getItem("currentPath");
-    storage.setItem("prevPath", prevPath);
-    storage.setItem("currentPath", globalThis.location.pathname);
-  }
-
   const [todayList, setTodayList] = useState<IPilsaList | undefined>(undefined);
   const [recommenList, setRecommenList] = useState<IPilsaList | undefined>(
     undefined

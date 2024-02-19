@@ -23,9 +23,10 @@ const MyPilsaDetailPage = () => {
   const accessToken =
     typeof window !== "undefined" && localStorage.getItem("accessToken");
 
+  const isMine = profile?.id === pilsaInfo?.memberInfoResponse.id;
   const fetchPilsaItem = async (pilsaId: string) => {
     const res = await axios.get<IPilsaCardItem>(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}?getMyPilsa=true`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}?getMyPilsa=${isMine}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
