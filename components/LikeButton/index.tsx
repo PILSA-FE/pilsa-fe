@@ -12,7 +12,6 @@ const LikeButton = ({ pilsaId, liked }: LikeButtonProps) => {
     typeof window !== "undefined" && localStorage.getItem("accessToken");
 
   useEffect(() => {
-    // pilsaId 로 like 조회
     setIsLiked(liked);
   }, []);
 
@@ -31,6 +30,7 @@ const LikeButton = ({ pilsaId, liked }: LikeButtonProps) => {
         }
       );
       console.log(response.data);
+      setIsLiked(!isLiked);
     } catch (error) {
       console.error(error);
     }
@@ -43,7 +43,7 @@ const LikeButton = ({ pilsaId, liked }: LikeButtonProps) => {
         isLiked ? `bg-[#00C37D]` : `bg-[#C8C8C8]`
       }  `}
     >
-      ♥
+      ♥ {isLiked}
     </div>
   );
 };

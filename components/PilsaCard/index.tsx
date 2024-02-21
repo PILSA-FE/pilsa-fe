@@ -31,6 +31,7 @@ export interface IPilsaCardItem {
     pilsaId: number;
     title: string;
   };
+  isLikedAble: boolean;
 }
 export interface ICategoryItem {
   categoryCd: number;

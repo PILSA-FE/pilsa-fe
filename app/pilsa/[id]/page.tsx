@@ -22,12 +22,19 @@ const PilsaDetailPage = () => {
   );
   const [toggle, setToggle] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const accessToken =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
   const nowDate = new Date();
   const isMine = profile?.id === pilsaInfo?.memberInfoResponse.id;
 
   const fetchPilsaItem = async (pilsaId: string) => {
     const res = await axios.get<IPilsaCardItem>(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}?getMyPilsa=false`
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/v1/pilsa/${pilsaId}?getMyPilsa=${isMine}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
     );
     if (res.status === 200) {
       setPilsaInfo(res.data);
@@ -132,7 +139,10 @@ const PilsaDetailPage = () => {
                   {pilsaInfo.title}
                 </p>
                 <div className="flex justify-end z-10">
-                  <LikeButton liked={false} pilsaId={pilsaId as string} />
+                  <LikeButton
+                    liked={pilsaInfo.isLikedAble}
+                    pilsaId={pilsaId as string}
+                  />
                   <KakaoShareButton
                     title={pilsaInfo.title}
                     description={pilsaInfo.textContents}
