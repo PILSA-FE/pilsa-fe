@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import KakaoShareButton from "@/components/KakaoShare";
+import LikeButton from "@/components/LikeButton";
 
 const PilsaDetailPage = () => {
   const params = useParams();
@@ -130,7 +131,8 @@ const PilsaDetailPage = () => {
                 <p className="text-lg text-[#353535] font-bold font-Bokk-MeongJo relative z-10">
                   {pilsaInfo.title}
                 </p>
-                <div className="flex justify-end	">
+                <div className="flex justify-end z-10">
+                  <LikeButton liked={false} pilsaId={pilsaId as string} />
                   <KakaoShareButton
                     title={pilsaInfo.title}
                     description={pilsaInfo.textContents}

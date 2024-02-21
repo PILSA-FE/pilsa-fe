@@ -48,7 +48,7 @@ const PilsaCard = ({ pilsaInfo, hasDetail = true }: IPilsaCardProps) => {
     author,
     backgroundColor,
     backgroundImageUrl,
-    categoryList,
+    categoryLists,
     textContents,
     title,
     pilsaId,
@@ -86,8 +86,8 @@ const PilsaCard = ({ pilsaInfo, hasDetail = true }: IPilsaCardProps) => {
         ></div>
       )}
       <div className="flex items-center gap-x-0.5 text-[#666666] text-sm font-medium relative z-10">
-        {categoryList &&
-          categoryList.map((cate) => (
+        {categoryLists &&
+          categoryLists.map((cate) => (
             <>
               <span>{cate.categoryName}</span>
               <span className="last:hidden">∙</span>
